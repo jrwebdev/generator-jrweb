@@ -71,26 +71,26 @@ module.exports = generators.Base.extend({
 
     },
 
-    //installDeps: function () {
-    //    this.npmInstall([
-    //        'webpack',
-    //        'webpack-dev-server',
-    //        'babel',
-    //        'babel-core',
-    //        'babel-loader',
-    //        'babel-preset-es2015',
-    //        'css-loader',
-    //        'style-loader',
-    //        'html-loader',
-    //        'postcss',
-    //        'autoprefixer',
-    //        'postcss-loader',
-    //        'node-sass',
-    //        'sass-loader'
-    //    ],{
-    //        'saveDev': true
-    //    });
-    //},
+    installDeps: function () {
+        this.npmInstall([
+            'webpack',
+            'webpack-dev-server',
+            'babel',
+            'babel-core',
+            'babel-loader',
+            'babel-preset-es2015',
+            'css-loader',
+            'style-loader',
+            'html-loader',
+            'postcss',
+            'autoprefixer',
+            'postcss-loader',
+            'node-sass',
+            'sass-loader'
+        ],{
+            'saveDev': true
+        });
+    },
 
     complete: function () {
         this.log('Setup complete. To start the app, run `npm start`.');
