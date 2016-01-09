@@ -43,8 +43,9 @@ var config = {
 };
 
 if (process.env.NODE_ENV === 'production') {
-    config.devtool = 'source-map';
     config.output.path = __dirname + '/dist';
+    config.plugins.push(new webpack.optimize.UglifyJsPlugin());
+    config.devtool = 'source-map';
 }
 
 module.exports = config;

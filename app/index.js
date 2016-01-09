@@ -22,8 +22,7 @@ module.exports = generators.Base.extend({
             type: 'input',
             name: 'name',
             message: 'Your project name',
-            default: this.appname,
-            store: true
+            default: this.appname
         }, function (res) {
             this.appname = res.name;
             done();
@@ -35,8 +34,7 @@ module.exports = generators.Base.extend({
         this.prompt({
             type: 'input',
             name: 'description',
-            message: 'A description of your project',
-            store: true
+            message: 'A description of your project'
         }, function (res) {
             this.description = res.description;
             done();
