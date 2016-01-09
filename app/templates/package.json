@@ -1,0 +1,13 @@
+{
+  "name": "<%= appname %>",
+  "description": "<%= description %>",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "webpack-dev-server --content-base=src/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "<%= gitUrl %>"
+  },
+  "license": "MIT"
+}
