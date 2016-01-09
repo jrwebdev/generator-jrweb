@@ -8,23 +8,24 @@ module.exports = {
         path: __dirname + '/src',
         filename: 'app-bundle.js'
     },
+    devtool: 'eval-source-map',
     module: {
         loaders: [{
-            test: /\.css$/,
-            loader: 'style!css!postcss'
-        },{
-            test: /\.scss$/,
-            loader: 'style!css!postcss!sass'
-        },{
-            test: /\.html$/,
-            loader: 'html'
-        },{
             test: /\.js$/,
             loader: 'babel',
             exclude: /node_modules/,
             query: {
                 presets: ['es2015']
             }
+        },{
+            test: /\.css$/,
+            loader: 'style!css?sourceMap!postcss'
+        },{
+            test: /\.scss$/,
+            loader: 'style!css?sourceMap!postcss!sass?sourceMap'
+        },{
+            test: /\.html$/,
+            loader: 'html'
         }]
     },
     postcss: function () {
