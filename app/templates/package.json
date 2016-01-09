@@ -3,7 +3,8 @@
   "description": "<%= description %>",
   "version": "1.0.0",
   "scripts": {
-    "start": "webpack-dev-server --content-base=src/"
+    "start": "webpack-dev-server --content-base=src/",
+    "build": "rm -rf dist && NODE_ENV=production webpack && cp src/index.html dist/index.html"
   },
   "repository": {
     "type": "git",

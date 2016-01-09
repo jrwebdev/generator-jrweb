@@ -1,7 +1,7 @@
 var webpack = require('webpack');
 var autoprefixer = require('autoprefixer');
 
-module.exports = {
+var config = {
     context: __dirname + '/src',
     entry: './app.js',
     output: {
@@ -41,3 +41,10 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin()
     ]
 };
+
+if (process.env.NODE_ENV === 'production') {
+    config.devtool = 'source-map';
+    config.output.path = __dirname + '/dist';
+}
+
+module.exports = config;
