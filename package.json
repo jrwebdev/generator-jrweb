@@ -14,13 +14,25 @@
     "url": "https://github.com/jrwebdev/generator-jrweb/issues"
   },
   "homepage": "https://github.com/jrwebdev/generator-jrweb#readme",
-  "devDependencies": {
-    "git-remote-origin-url": "^1.1.2",
-    "yeoman-generator": "^0.22.2",
-    "semantic-release": "^4.3.5"
-  },
   "scripts": {
+    "commit": "git-cz",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
-  "version": "1.0.0"
+  "devDependencies": {
+    "commitizen": "^2.4.6",
+    "cz-conventional-changelog": "^1.1.5",
+    "ghooks": "^1.0.3",
+    "git-remote-origin-url": "^1.1.2",
+    "semantic-release": "^4.3.5",
+    "validate-commit-msg": "^1.0.0",
+    "yeoman-generator": "^0.22.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    },
+    "ghooks": {
+      "commit-msg": "validate-commit-msg"
+    }
+  }
 }
