@@ -1,0 +1,17 @@
+<% if (framework === 'ng1') { %>
+
+    import angular from 'angular';
+
+    let app = angular.module('app', []);
+
+    app.directive('app', () => ({
+        template: '<%= appname %> started'
+    }));
+
+    angular.element(document).ready(() => angular.bootstrap(document, ['app']));
+
+<% } else if (framework === 'none') { %>
+
+    console.log('<%= appname %> started');
+
+<% } %>
