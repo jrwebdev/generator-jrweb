@@ -3,25 +3,6 @@ var gitUrl = require('git-remote-origin-url');
 var beautify = require('gulp-beautify');
 var gulpif = require('gulp-if');
 
-// TODO: Webapp or module (jrpackage)
-// TODO: Routing setup
-// TODO: Karma + Mocha/Jasmine/Tape
-// TODO: Semantic release (jrpackage)
-// TODO: CI Providers
-// TODO: ES5/ES6/ES7
-// TODO: JavaScript/TypeScript/CoffeeScript
-// TODO: Redux/State Management
-// TODO: Component generator
-// TODO: E2E tests
-// TODO: Perf
-// TODO: Angular Material/Bootstrap/Foundation
-// TODO: Google fonts
-// TODO: Frameworks (ng1/ng2/React/Polymer/Circle.js/Aurelia/Ember/Backbone/Rendr/Meteor)
-// TODO: Module bundler (JSPM/Webpack/Rollup)
-// TODO: CSS processor (SASS/LESS/Stylus)
-// TODO: Back-end (Socket.io/Falcor)
-// TODO: eslint/esdoc/istanbul
-
 module.exports = generators.Base.extend({
 
     constructor: function () {
