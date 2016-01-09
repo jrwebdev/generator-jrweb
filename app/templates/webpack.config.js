@@ -35,7 +35,8 @@ var config = {
         historyApiFallback: true,
         hot: true,
         inline: true,
-        progress: true
+        progress: true,
+        port: 8080
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin()
