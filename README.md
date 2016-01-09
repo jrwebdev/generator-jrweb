@@ -9,7 +9,7 @@ Simple Yeoman generator for front-end web projects. Sets up Webpack with Babel a
 
 Ensure Yeoman is installed globally (`npm install -g yeoman`) and install the generator via:
 
-```npm install -g generator-jrweb```.
+```npm install -g generator-jrweb```
 
 ## Usage
 
