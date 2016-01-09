@@ -1,13 +1,12 @@
 {
   "name": "generator-jrweb",
-  "version": "1.0.0",
   "description": "Simple Yeoman generator for front-end web projects",
   "files": [
     "app"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jrwebdev/generator-jrweb.git"
+    "url": "https://github.com/jrwebdev/generator-jrweb.git"
   },
   "author": "James Ravenscroft",
   "license": "MIT",
@@ -17,6 +16,10 @@
   "homepage": "https://github.com/jrwebdev/generator-jrweb#readme",
   "devDependencies": {
     "git-remote-origin-url": "^1.1.2",
-    "yeoman-generator": "^0.22.2"
+    "yeoman-generator": "^0.22.2",
+    "semantic-release": "^4.3.5"
+  },
+  "scripts": {
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   }
 }
