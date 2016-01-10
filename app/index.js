@@ -8,10 +8,12 @@ module.exports = generators.Base.extend({
     constructor: function () {
         generators.Base.apply(this, arguments);
 
+        /**
         var isAppJs = function(file) {
             return file.path.match(/src\/app\.(js|ts)$/);
         };
         this.registerTransformStream(gulpif(isAppJs, beautify({indentSize: 2})));
+        **/
 
         this.argument('appname', {type: String, required: false, default: this.appname});
     },
@@ -64,6 +66,9 @@ module.exports = generators.Base.extend({
             },{
                 name: 'Angular 1.4.x',
                 value: 'ng1'
+            },{
+                name: 'Angular 2.0.0-beta.1',
+                value: 'ng2'
             }]
         }, function (res) {
             this.framework = res.framework;
@@ -96,6 +101,10 @@ module.exports = generators.Base.extend({
             'src/index.html',
             ['src/app.ejs', 'src/app' + appFileExt]
         ];
+
+        if (this.typescript) {
+            files.push('tsconfig.json');
+        }
 
         var tplVars = {
             appname: this.appname,
@@ -153,8 +162,28 @@ module.exports = generators.Base.extend({
         ];
 
         var frameworkDeps = {
-            none: {deps: [], devDeps: [], tsds: []},
-            ng1: {deps: ['angular'], devDeps: [], tsds: ['angular']}
+            none: {
+                deps: [],
+                devDeps: [],
+                tsds: []
+            },
+            ng1: {
+                deps: ['angular'],
+                devDeps: [],
+                tsds: ['angular']
+            },
+            ng2: {
+                deps: [
+                    'angular2@2.0.0-beta.1',
+                    'rxjs@5.0.0-beta.0',
+                    'zone.js@0.5.10',
+                    'es6-promise@^3.0.2',
+                    'es6-shim@^0.33.3',
+                    'reflect-metadata@0.1.2'
+                ],
+                devDeps: [],
+                tsds: ['angular2']
+            }
         };
 
         deps = deps.concat(frameworkDeps[this.framework].deps);

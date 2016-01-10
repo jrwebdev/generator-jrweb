@@ -2,18 +2,34 @@
 
 <% if (framework === 'ng1') { %>
 
-    import * as angular from 'angular';
+import * as angular from 'angular';
 
-    let app = angular.module('app', []);
+let app = angular.module('app', []);
 
-    app.directive('app', () => ({
-        template: '<%= appname %> started'
-    }));
+app.directive('app', () => ({
+    template: '<%= appname %> started'
+}));
 
-    angular.element(document).ready(() => angular.bootstrap(document, ['app']));
+angular.element(document).ready(() => angular.bootstrap(document, ['app']));
+
+<% } else if (framework === 'ng2') { %>
+
+// Polyfills *should* be loaded independently from bundle
+import 'angular2/bundles/angular2-polyfills';
+import 'reflect-metadata';
+import {Component} from 'angular2/core';
+import {bootstrap} from 'angular2/platform/browser'
+
+@Component({
+    selector: 'app',
+    template: '<%= appname %> started'
+})
+class AppComponent { }
+
+bootstrap(AppComponent);
 
 <% } else if (framework === 'none') { %>
 
-    console.log('<%= appname %> started');
+console.log('<%= appname %> started');
 
 <% } %>
