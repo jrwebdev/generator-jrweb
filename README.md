@@ -3,10 +3,10 @@
 Simple Yeoman generator for front-end web projects. Unlike other generators which are often bloated and install more than
 is needed, this generator only installs the bare minimum to get up-and-running.
 
-Runs `webpack` with `webpack-dev-server` for development, with Babel for ES6 transpiliation, along with source maps
-and a production build step.
+Runs `webpack` with `webpack-dev-server` for development, with Babel or TypeScript for ES6/ES7 transpiliation,
+along with source maps and a production build step. Uses SASS for CSS.
 
-Includes a choice of an Angular 1.x bootstrap or an empty JavaScript file.
+Includes a choice of either a basic Angular 1.x bootstrap, Angular 2 bootstrap or an empty JavaScript file.
 
 [![Travis](https://img.shields.io/travis/jrwebdev/generator-jrweb.svg)](https://travis-ci.org/jrwebdev/generator-jrweb)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)

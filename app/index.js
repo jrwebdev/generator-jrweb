@@ -3,34 +3,17 @@ var gitUrl = require('git-remote-origin-url');
 var beautify = require('gulp-beautify');
 var gulpif = require('gulp-if');
 
-// TODO: Webapp or module (jrpackage)
-// TODO: Routing setup
-// TODO: Karma + Mocha/Jasmine/Tape
-// TODO: Semantic release (jrpackage)
-// TODO: CI Providers
-// TODO: ES5/ES6/ES7
-// TODO: JavaScript/TypeScript/CoffeeScript
-// TODO: Redux/State Management
-// TODO: Component generator
-// TODO: E2E tests
-// TODO: Perf
-// TODO: Angular Material/Bootstrap/Foundation
-// TODO: Google fonts
-// TODO: Frameworks (ng1/ng2/React/Polymer/Circle.js/Aurelia/Ember/Backbone/Rendr/Meteor)
-// TODO: Module bundler (JSPM/Webpack/Rollup)
-// TODO: CSS processor (SASS/LESS/Stylus)
-// TODO: Back-end (Socket.io/Falcor)
-// TODO: eslint/esdoc/istanbul
-
 module.exports = generators.Base.extend({
 
     constructor: function () {
         generators.Base.apply(this, arguments);
 
+        /**
         var isAppJs = function(file) {
-            return file.path.match(/src\/app\.js$/);
+            return file.path.match(/src\/app\.(js|ts)$/);
         };
         this.registerTransformStream(gulpif(isAppJs, beautify({indentSize: 2})));
+        **/
 
         this.argument('appname', {type: String, required: false, default: this.appname});
     },
@@ -81,8 +64,11 @@ module.exports = generators.Base.extend({
                 name: 'None',
                 value: 'none'
             },{
-                name: 'Angular',
+                name: 'Angular 1.4.x',
                 value: 'ng1'
+            },{
+                name: 'Angular 2.0.0-beta.1',
+                value: 'ng2'
             }]
         }, function (res) {
             this.framework = res.framework;
@@ -90,7 +76,22 @@ module.exports = generators.Base.extend({
         }.bind(this));
     },
 
+    getTypeScript: function () {
+        var done = this.async();
+        this.prompt({
+            type: 'confirm',
+            name: 'typescript',
+            message: 'Use TypeScript?',
+            default: false
+        }, function (res) {
+            this.typescript = res.typescript;
+            done();
+        }.bind(this));
+    },
+
     copyFiles: function () {
+
+        var appFileExt = this.typescript ? '.ts' : '.js';
 
         var files = [
             '.gitignore',
@@ -98,14 +99,19 @@ module.exports = generators.Base.extend({
             'package.json',
             'webpack.config.js',
             'src/index.html',
-            ['src/app.ejs', 'src/app.js']
+            ['src/app.ejs', 'src/app' + appFileExt]
         ];
+
+        if (this.typescript) {
+            files.push('tsconfig.json');
+        }
 
         var tplVars = {
             appname: this.appname,
             description: this.description,
             gitUrl: this.gitUrl,
-            framework: this.framework
+            framework: this.framework,
+            typescript: this.typescript
         };
 
         files.forEach(function (file) {
@@ -141,6 +147,8 @@ module.exports = generators.Base.extend({
             'babel-core',
             'babel-loader',
             'babel-preset-es2015',
+            'babel-preset-stage-0',
+            'babel-plugin-transform-decorators-legacy',
             'css-loader',
             'style-loader',
             'html-loader',
@@ -151,15 +159,53 @@ module.exports = generators.Base.extend({
             'sass-loader'
         ];
 
+        var tsds = [
+            'lodash'
+        ];
+
         var frameworkDeps = {
-            none: [],
-            ng1: ['angular']
+            none: {
+                deps: [],
+                devDeps: [],
+                tsds: []
+            },
+            ng1: {
+                deps: ['angular'],
+                devDeps: [],
+                tsds: ['angular']
+            },
+            ng2: {
+                deps: [
+                    'angular2@2.0.0-beta.1',
+                    'rxjs@5.0.0-beta.0',
+                    'zone.js@0.5.10',
+                    'es6-promise@^3.0.2',
+                    'es6-shim@^0.33.3',
+                    'reflect-metadata@0.1.2'
+                ],
+                devDeps: [],
+                tsds: ['angular2']
+            }
         };
 
-        deps = deps.concat(frameworkDeps[this.framework]);
+        deps = deps.concat(frameworkDeps[this.framework].deps);
+        devDeps = devDeps.concat(frameworkDeps[this.framework].devDeps);
 
+        if (this.typescript) {
+            devDeps = devDeps.concat(['typescript', 'tsd', 'ts-loader']);
+            tsds = tsds.concat(frameworkDeps[this.framework].tsds);
+        }
+
+        var generator = this;
         this.npmInstall(deps, {'save': true});
-        this.npmInstall(devDeps, {'saveDev': true});
+        this.npmInstall(devDeps, {'saveDev': true}, function () {
+            if (generator.typescript) {
+                generator.spawnCommandSync('node', ['./node_modules/.bin/tsd', 'init']);
+                tsds.forEach(function(tsd) {
+                    generator.spawnCommandSync('node', ['./node_modules/.bin/tsd', 'install', tsd, '--save']);
+                });
+            }
+        });
 
     }
 
