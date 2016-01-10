@@ -147,6 +147,8 @@ module.exports = generators.Base.extend({
             'babel-core',
             'babel-loader',
             'babel-preset-es2015',
+            'babel-preset-stage-0',
+            'babel-plugin-transform-decorators-legacy',
             'css-loader',
             'style-loader',
             'html-loader',
