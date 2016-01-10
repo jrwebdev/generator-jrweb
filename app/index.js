@@ -9,7 +9,7 @@ module.exports = generators.Base.extend({
         generators.Base.apply(this, arguments);
 
         var isAppJs = function(file) {
-            return file.path.match(/src\/app\.js$/);
+            return file.path.match(/src\/app\.(js|ts)$/);
         };
         this.registerTransformStream(gulpif(isAppJs, beautify({indentSize: 2})));
 
@@ -62,7 +62,7 @@ module.exports = generators.Base.extend({
                 name: 'None',
                 value: 'none'
             },{
-                name: 'Angular',
+                name: 'Angular 1.4.x',
                 value: 'ng1'
             }]
         }, function (res) {
@@ -71,7 +71,22 @@ module.exports = generators.Base.extend({
         }.bind(this));
     },
 
+    getTypeScript: function () {
+        var done = this.async();
+        this.prompt({
+            type: 'confirm',
+            name: 'typescript',
+            message: 'Use TypeScript?',
+            default: false
+        }, function (res) {
+            this.typescript = res.typescript;
+            done();
+        }.bind(this));
+    },
+
     copyFiles: function () {
+
+        var appFileExt = this.typescript ? '.ts' : '.js';
 
         var files = [
             '.gitignore',
@@ -79,14 +94,15 @@ module.exports = generators.Base.extend({
             'package.json',
             'webpack.config.js',
             'src/index.html',
-            ['src/app.ejs', 'src/app.js']
+            ['src/app.ejs', 'src/app' + appFileExt]
         ];
 
         var tplVars = {
             appname: this.appname,
             description: this.description,
             gitUrl: this.gitUrl,
-            framework: this.framework
+            framework: this.framework,
+            typescript: this.typescript
         };
 
         files.forEach(function (file) {
@@ -132,15 +148,33 @@ module.exports = generators.Base.extend({
             'sass-loader'
         ];
 
+        var tsds = [
+            'lodash'
+        ];
+
         var frameworkDeps = {
-            none: [],
-            ng1: ['angular']
+            none: {deps: [], devDeps: [], tsds: []},
+            ng1: {deps: ['angular'], devDeps: [], tsds: ['angular']}
         };
 
-        deps = deps.concat(frameworkDeps[this.framework]);
+        deps = deps.concat(frameworkDeps[this.framework].deps);
+        devDeps = devDeps.concat(frameworkDeps[this.framework].devDeps);
 
+        if (this.typescript) {
+            devDeps = devDeps.concat(['typescript', 'tsd', 'ts-loader']);
+            tsds = tsds.concat(frameworkDeps[this.framework].tsds);
+        }
+
+        var generator = this;
         this.npmInstall(deps, {'save': true});
-        this.npmInstall(devDeps, {'saveDev': true});
+        this.npmInstall(devDeps, {'saveDev': true}, function () {
+            if (generator.typescript) {
+                generator.spawnCommandSync('node', ['./node_modules/.bin/tsd', 'init']);
+                tsds.forEach(function(tsd) {
+                    generator.spawnCommandSync('node', ['./node_modules/.bin/tsd', 'install', tsd, '--save']);
+                });
+            }
+        });
 
     }
 

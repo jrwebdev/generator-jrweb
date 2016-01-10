@@ -3,7 +3,7 @@ var autoprefixer = require('autoprefixer');
 
 var config = {
     context: __dirname + '/src',
-    entry: './app.js',
+    entry: './app.<%= (typescript ? 'ts' : 'js') %>',
     output: {
         path: __dirname + '/src',
         filename: 'app-bundle.js'
@@ -17,6 +17,11 @@ var config = {
             query: {
                 presets: ['es2015']
             }
+        <% if (typescript) { -%>
+        },{
+            test: /\.ts$/,
+            loader: 'ts'
+        <% } -%>
         },{
             test: /\.css$/,
             loader: 'style!css?sourceMap!postcss'

@@ -1,6 +1,8 @@
+<% if (typescript) { %>/// <reference path="../typings/tsd.d.ts" /><% } %>
+
 <% if (framework === 'ng1') { %>
 
-    import angular from 'angular';
+    import * as angular from 'angular';
 
     let app = angular.module('app', []);
 
