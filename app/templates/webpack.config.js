@@ -10,12 +10,16 @@ var config = {
     },
     devtool: 'eval-source-map',
     module: {
-        loaders: [{
+        loaders: [<% if (framework === 'react') { -%>{
+            test: /\.js$/,
+            loader: 'react-hot',
+            exclude: /node_modules/
+        },<% } -%>{
             test: /\.js$/,
             loader: 'babel',
             exclude: /node_modules/,
             query: {
-                presets: ['es2015', 'stage-0'],
+                presets: ['es2015', 'stage-0'<% if (framework === 'react') { -%>, 'react'<% } -%>],
                 plugins: ['transform-decorators-legacy']
             }
         <% if (typescript) { -%>

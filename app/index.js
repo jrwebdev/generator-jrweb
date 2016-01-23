@@ -69,6 +69,9 @@ module.exports = generators.Base.extend({
             },{
                 name: 'Angular 2.0.0-beta.1',
                 value: 'ng2'
+            },{
+                name: 'React',
+                value: 'react'
             }]
         }, function (res) {
             this.framework = res.framework;
@@ -185,6 +188,20 @@ module.exports = generators.Base.extend({
                 ],
                 devDeps: [],
                 tsds: ['angular2']
+            },
+            react: {
+                deps: [
+                    'react',
+                    'react-dom'
+                ],
+                devDeps: [
+                    'babel-preset-react',
+                    'react-hot-loader'
+                ],
+                tsds: [
+                    'react',
+                    'react-dom'
+                ]
             }
         };
 
