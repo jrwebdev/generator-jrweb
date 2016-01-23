@@ -28,6 +28,17 @@ class AppComponent { }
 
 bootstrap(AppComponent);
 
+<% } else if (framework === 'react') { %>
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+ReactDOM.render((
+    <div>
+        <%= appname %> started
+    </div>
+), document.getElementById('app'));
+
 <% } else if (framework === 'none') { %>
 
 console.log('<%= appname %> started');
