@@ -1,0 +1,9 @@
+<% if (typescript) { %>/// <reference path="../typings/tsd.d.ts" /><% } -%>
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+ReactDOM.render((
+    <div>
+        <%= appname %> started
+    </div>
+), document.getElementById('app'));

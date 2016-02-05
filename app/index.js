@@ -102,7 +102,7 @@ module.exports = generators.Base.extend({
             'package.json',
             'webpack.config.js',
             'src/index.html',
-            ['src/app.ejs', 'src/app' + appFileExt]
+            ['src/app/' + this.framework + '.ejs', 'src/app' + appFileExt]
         ];
 
         if (this.typescript) {
