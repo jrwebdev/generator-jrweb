@@ -97,7 +97,7 @@ module.exports = generators.Base.extend({
         var appFileExt = this.typescript ? '.ts' : '.js';
 
         var files = [
-            '.gitignore',
+            ['gitignore', '.gitignore'],
             'README.md',
             'package.json',
             'webpack.config.js',
