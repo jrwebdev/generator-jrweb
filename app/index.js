@@ -179,9 +179,9 @@ module.exports = generators.Base.extend({
             },
             ng2: {
                 deps: [
-                    'angular2@2.0.0-beta.1',
-                    'rxjs@5.0.0-beta.0',
-                    'zone.js@0.5.10',
+                    'angular2@2.0.0-beta.8',
+                    'rxjs@5.0.0-beta.2',
+                    'zone.js@0.5.15',
                     'es6-promise@^3.0.2',
                     'es6-shim@^0.33.3',
                     'reflect-metadata@0.1.2'
@@ -209,7 +209,7 @@ module.exports = generators.Base.extend({
         devDeps = devDeps.concat(frameworkDeps[this.framework].devDeps);
 
         if (this.typescript) {
-            devDeps = devDeps.concat(['typescript', 'tsd', 'ts-loader']);
+            devDeps = devDeps.concat(['typescript', 'typings', 'ts-loader']);
             tsds = tsds.concat(frameworkDeps[this.framework].tsds);
         }
 
@@ -217,9 +217,9 @@ module.exports = generators.Base.extend({
         this.npmInstall(deps, {'save': true});
         this.npmInstall(devDeps, {'saveDev': true}, function () {
             if (generator.typescript) {
-                generator.spawnCommandSync('node', ['./node_modules/.bin/tsd', 'init']);
+                generator.spawnCommandSync('node', ['./node_modules/.bin/typings', 'init']);
                 tsds.forEach(function(tsd) {
-                    generator.spawnCommandSync('node', ['./node_modules/.bin/tsd', 'install', tsd, '--save']);
+                    generator.spawnCommandSync('node', ['./node_modules/.bin/typings', 'install', tsd, '--save']);
                 });
             }
         });
